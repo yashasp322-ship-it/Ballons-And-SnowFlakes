@@ -11,7 +11,7 @@ export default function App() {
   const [activeEffect, setActiveEffect] = useState<EffectType>('none');
   const [isSpawning, setIsSpawning] = useState<boolean>(false);
   const [spawnCountdown, setSpawnCountdown] = useState<number>(0);
-
+  const [darkMode, setDarkMode] = useState(false);
   // Spawner effect
   useEffect(() => {
     if (!isSpawning || activeEffect === 'none') return;
@@ -128,8 +128,13 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[#fcfbf9] text-zinc-900 font-sans overflow-hidden flex flex-col justify-between">
-      
+      <div
+  className={`relative min-h-screen w-full ${
+    darkMode
+      ? "bg-zinc-900 text-white"
+      : "bg-[#fcfbf9] text-zinc-900"
+  } font-sans overflow-hidden flex flex-col justify-between`}
+>
       {/* 1. Backdrop Grid Deco and Glass Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-[0.02]"
@@ -148,9 +153,18 @@ export default function App() {
             KINETIC STUDY // NO.411
           </span>
         </div>
-        <div className="font-mono text-[10px] tracking-[0.15em] text-zinc-500 uppercase">
-          REV. 2026.06
-        </div>
+        <div className="flex items-center gap-3">
+  <button
+    onClick={() => setDarkMode(!darkMode)}
+    className="px-3 py-1 border rounded-lg text-xs"
+  >
+    {darkMode ? "☀️ Light" : "🌙 Dark"}
+  </button>
+
+  <div className="font-mono text-[10px] tracking-[0.15em] text-zinc-500 uppercase">
+    REV. 2026.06
+  </div>
+</div>
       </header>
 
       {/* 3. Main Stage Particle Renderers (Overlay behind elements, but fills full screen) */}
@@ -348,12 +362,14 @@ export default function App() {
       {/* 5. Minimalist Footer Details */}
       <footer className="relative w-full max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row justify-between items-center z-10 space-y-2 sm:space-y-0 text-zinc-400 font-mono text-[10px] tracking-wider uppercase font-medium">
         <div>
-          ACTIVE PARTICLES: <span className="text-zinc-800">{snowflakes.length + balloons.length}</span>
+          ACTIVE PARTICLES: <span className={darkMode ? "text-white" : "text-zinc-800"}>
+  {snowflakes.length + balloons.length}
+</span>
         </div>
         <div className="space-x-4">
           <span>SIZE: MEDIUM</span>
-          <span>•</span>
-          <span>DURATION: 5.0S</span>
+          <span className={darkMode ? "text-white" : "text-zinc-800"}>•</span>
+          <span className={darkMode ? "text-white" : "text-zinc-800"}>DURATION: 5.0S</span>
         </div>
       </footer>
 
